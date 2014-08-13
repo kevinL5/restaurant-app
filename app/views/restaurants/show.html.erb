@@ -1,0 +1,71 @@
+</br>
+
+<div class="text-center">
+  <h1><%= @restaurant.name %></h1>
+
+  </br></br>
+
+  <h4>Adress : <%= @restaurant.address %></h4>
+  <h4>Phone : <%= @restaurant.phone %></h4>
+  <h4>Category :<%= @restaurant.category %></h4>
+
+  </br></br>
+
+  <%= link_to restaurants_path do %>
+    <button type="button" class="btn btn-primary">Back</button>
+  <% end %>
+  <%= link_to edit_restaurant_path(@restaurant) do %>
+    <button type="button" class="btn btn-warning">Edit</button>
+  <% end %>
+  <%= link_to restaurant_path, method: 'delete' do %>
+    <button type="button" class="btn btn-danger">Delete</button>
+  <% end %>
+
+  </br></br>
+
+  <h2>Comments</h2>
+
+  <button class="btn btn-default" data-toggle="modal" data-target="#myModal">
+    Add a new comment
+  </button>
+
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myModalLabel">Add a comment</h4>
+        </div>
+        <div class="modal-body">
+          <%= form_for([@restaurant, @review]) do |f| %>
+              <p><%= f.label :content %>
+              <%= f.text_field :content %></p>
+
+            <p><%= f.label :rating %>
+            <%= f.text_field :rating %></p>
+
+            <%= f.submit %></p>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <% @restaurant = Restaurant.find(params[:id]) %>
+  <ul class="list-unstyled"><% @restaurant.reviews.each do |review| %>
+    <li><h4>Comment: <%= review.content %></h4>
+        <h4>Rate: <%= review.rating %></h4>
+
+        <%= link_to restaurant_review_path(@restaurant, review), method: 'delete' do %>
+          <button type="button" class="btn btn-danger">Delete</button>
+        <% end %>
+    </li>
+    <% end %>
+  </ul>
+
+</div>
